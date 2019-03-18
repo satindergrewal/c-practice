@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() {
+int main(int argc, char *argv[]) {
     
-    double height = 32.3;
-    double width = 15.3;
+    double width = atoi(argv[1]);
+    double height = atoi(argv[2]);
     double area = 0.0;
     double perimeter = 0.0;
 
@@ -20,9 +20,9 @@ int main() {
 }
 
 /* OUTPUT
-$ ./rectangle
-Rectangle Height        : 32.30
-Rectangle Width         : 15.30
-Rectangle Area          : 494.19
-Rectangle Perimeter     : 95.20
+$ ./rectangle 13.4 33.2
+Rectangle Height        : 33.00
+Rectangle Width         : 13.00
+Rectangle Area          : 429.00
+Rectangle Perimeter     : 92.00
 */
