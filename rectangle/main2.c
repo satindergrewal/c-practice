@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int main(int argc, char *argv[]) {
+
+    printf("%lu\n",strlen(*argv));
     
     // Declaring variables
     double width = atoi(argv[1]); // converting char argument values to integer/float using atoi function
