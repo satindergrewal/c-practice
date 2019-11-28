@@ -1,0 +1,1 @@
+int startnspv(int argc, char* argv[]);
