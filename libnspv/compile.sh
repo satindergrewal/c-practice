@@ -1,1 +1,1 @@
-gcc -o runnspv runnspv.c libnspv.a -Iincludes -Iincludes/nspv -Iincludes/cryptoconditions -Iincludes/logdb -Iincludes/btc
+gcc -o runnspv runnspv.c -Iincludes/ -Iincludes/nspv -Iincludes/cryptoconditions -Iincludes/logdb -Iincludes/btc libcryptoconditions.a libbtc.a libsecp256k1.a -lgmp -levent -lsodium libnspv.a
