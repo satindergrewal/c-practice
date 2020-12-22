@@ -1,0 +1,3 @@
+[submodule "nanomessage/nng"]
+	path = nanomessage/nng
+	url = https://github.com/nanomsg/nng
