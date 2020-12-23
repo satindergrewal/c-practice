@@ -8,8 +8,8 @@
 #include <nanomsg/nn.h>
 #include <nanomsg/reqrep.h>
 
-#define NODE0 "node0"
-#define NODE1 "node1"
+#define SERVER "server"
+#define CLIENT "client"
 #define DATE "DATE"
 
 void
@@ -30,7 +30,7 @@ date(void)
 }
 
 int
-node0(const char *url)
+server(const char *url)
 {
         int sz_date = strlen(DATE) + 1; // '\0' too
         int sock;
@@ -49,10 +49,10 @@ node0(const char *url)
                         fatal("nn_recv");
                 }
                 if ((bytes == (strlen(DATE) + 1)) && (strcmp(DATE, buf) == 0)) {
-                        printf("NODE0: RECEIVED DATE REQUEST\n");
+                        printf("SERVER: RECEIVED DATE REQUEST\n");
                         char *d = date();
                         int sz_d = strlen(d) + 1; // '\0' too
-                        printf("NODE0: SENDING DATE %s\n", d);
+                        printf("SERVER: SENDING DATE %s\n", d);
                         if ((bytes = nn_send(sock, d, sz_d, 0)) < 0) {
                                 fatal("nn_send");
                         }
@@ -62,7 +62,7 @@ node0(const char *url)
 }
 
 int
-node1(const char *url)
+client(const char *url)
 {
         int sz_date = strlen(DATE) + 1; // '\0' too
         char *buf = NULL;
@@ -76,14 +76,14 @@ node1(const char *url)
         if ((rv = nn_connect (sock, url)) < 0) {
                 fatal("nn_connect");
         }
-        printf("NODE1: SENDING DATE REQUEST %s\n", DATE);
+        printf("CLIENT: SENDING DATE REQUEST %s\n", DATE);
         if ((bytes = nn_send(sock, DATE, sz_date, 0)) < 0) {
                 fatal("nn_send");
         }
         if ((bytes = nn_recv(sock, &buf, NN_MSG, 0)) < 0) {
                 fatal("nn_recv");
         }
-        printf("NODE1: RECEIVED DATE %s\n", buf);  
+        printf("CLIENT: RECEIVED DATE %s\n", buf);  
         nn_freemsg(buf);
         return (nn_shutdown(sock, 0));
 }
@@ -91,14 +91,37 @@ node1(const char *url)
 int
 main(const int argc, const char **argv)
 {
-        if ((argc > 1) && (strcmp(NODE0, argv[1]) == 0))
-                return (node0(argv[2]));
+        if ((argc > 1) && (strcmp(SERVER, argv[1]) == 0))
+                return (server(argv[2]));
 
-        if ((argc > 1) && (strcmp(NODE1, argv[1]) == 0))
-                return (node1(argv[2]));
+        if ((argc > 1) && (strcmp(CLIENT, argv[1]) == 0))
+                return (client(argv[2]));
 
-      fprintf(stderr, "Usage: reqrep %s|%s <URL> ...\n", NODE0, NODE1);
+      fprintf(stderr, "Usage: reqrep %s|%s <URL> ...\n", SERVER, CLIENT);
       return (1);
 }
 
-// gcc reqprep.c -I./nng/include/nng/compat/ /usr/local/lib/libnng.a -o reqrep
+// Compilation
+// --------------
+// gcc reqrep.c -I./nng/include/nng/compat/ /usr/local/lib/libnng.a -o reqrep
+// gcc reqrep.c -I./nng/include/nng/compat/ /usr/local/lib/libnng.a -pthread -o reqrep
+
+// Execution
+// --------------
+// ./reqrep server ipc:///tmp/reqrep.ipc & server=$! && sleep 1
+// ./reqrep client ipc:///tmp/reqrep.ipc
+// kill $server
+
+
+
+// Testing request/response between two nodes on server and client
+// --------------
+// Execute the following on server
+// ./reqrep server tcp://139.59.97.207:8899 & server=$! && sleep 1
+// 
+// Execute the following on client
+// ./reqrep client tcp://139.59.97.207:8899
+// 
+// Execute the following on server to kill the server process
+// kill $server
+
