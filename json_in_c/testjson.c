@@ -19,3 +19,10 @@ int main() {
 
 	return 0;
 }
+
+// gcc testjson.c ./cJSON/build/libcjson.dylib -o testjson
+// ./testjson
+// {
+// 	"userEmail":	"satinder",
+// 	"userPassword":	"verystrongpassword"
+// }
