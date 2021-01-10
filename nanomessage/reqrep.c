@@ -73,13 +73,17 @@ client(const char *url)
         if ((sock = nn_socket(AF_SP, NN_REQ)) < 0) {
                 fatal("nn_socket");
         }
+        printf("client sock: %d\n", sock);
         if ((rv = nn_connect (sock, url)) < 0) {
                 fatal("nn_connect");
         }
+        printf("client rv: %d\n", rv);
         printf("CLIENT: SENDING DATE REQUEST %s\n", DATE);
         if ((bytes = nn_send(sock, DATE, sz_date, 0)) < 0) {
                 fatal("nn_send");
         }
+        printf("client bytes: %d\n", bytes);
+        printf("client nn_recv: %d\n", nn_recv(sock, &buf, NN_MSG, 0));
         if ((bytes = nn_recv(sock, &buf, NN_MSG, 0)) < 0) {
                 fatal("nn_recv");
         }

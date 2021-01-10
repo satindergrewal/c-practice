@@ -1,3 +1,6 @@
 [submodule "nanomessage/nng"]
 	path = nanomessage/nng
 	url = https://github.com/nanomsg/nng
+[submodule "json_in_c/cJSON"]
+	path = json_in_c/cJSON
+	url = https://github.com/DaveGamble/cJSON.git
