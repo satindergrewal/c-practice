@@ -5,12 +5,12 @@
 
 int main() {
 
-	cJSON *root;
+	// cJSON *root;
 	cJSON *info;
 
 	// root = cJSON_CreateObject();
 	// cJSON_AddItemToObject(root, "userInfo", info = cJSON_CreateObject());
-	
+
 	info = cJSON_CreateObject();
 	cJSON_AddStringToObject(info, "method", "live");
 	cJSON_AddStringToObject(info, "id", "19e6443f0fb3a7d30d9ff7e696320d509eb263270f36d8a968ea407012fc438a");
