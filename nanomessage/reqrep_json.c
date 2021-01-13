@@ -131,8 +131,9 @@ client(const char *url)
                 fatal("nn_send");
         }
         printf("client bytes: %d\n", bytes);
-        printf("client nn_recv: %d\n", nn_recv(sock, &buf, NN_MSG, 0));
-        if ((bytes = nn_recv(sock, &buf, NN_MSG, 0)) < 0) {
+        int nn_recv_reply_num = nn_recv(sock, &buf, NN_MSG, 0);
+        printf("client nn_recv: %d\n", nn_recv_reply_num);
+        if ((bytes = nn_recv_reply_num) < 0) {
                 fatal("nn_recv");
         }
         printf("CLIENT: RECEIVED DATE %s\n", buf);  
@@ -160,11 +161,12 @@ main(const int argc, const char **argv)
 
 // Execution
 // --------------
-// ./reqrep server ipc:///tmp/reqrep.ipc & server=$! && sleep 1
-// ./reqrep client ipc:///tmp/reqrep.ipc
+// ./reqrep_json server ipc:///tmp/reqrep_json.ipc & server=$! && sleep 1
+// ./reqrep_json client ipc:///tmp/reqrep_json.ipc
 // kill $server
 
-
+// ./reqrep_json server ipc:///tmp/reqrep_json.ipc & server=$! && sleep 1 && ./reqrep_json client ipc:///tmp/reqrep_json.ipc
+// pkill reqrep_json
 
 // Testing request/response between two nodes on server and client
 // --------------

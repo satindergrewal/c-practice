@@ -83,10 +83,12 @@ client(const char *url)
                 fatal("nn_send");
         }
         printf("client bytes: %d\n", bytes);
-        printf("client nn_recv: %d\n", nn_recv(sock, &buf, NN_MSG, 0));
-        if ((bytes = nn_recv(sock, &buf, NN_MSG, 0)) < 0) {
+        int nn_recv_reply_num = nn_recv(sock, &buf, NN_MSG, 0);
+        printf("client nn_recv: %d\n", nn_recv_reply_num);
+        if ((bytes = nn_recv_reply_num) < 0) {
                 fatal("nn_recv");
         }
+        printf("client buf: %s\n", buf);
         printf("CLIENT: RECEIVED DATE %s\n", buf);  
         nn_freemsg(buf);
         return (nn_shutdown(sock, 0));
@@ -115,6 +117,9 @@ main(const int argc, const char **argv)
 // ./reqrep server ipc:///tmp/reqrep.ipc & server=$! && sleep 1
 // ./reqrep client ipc:///tmp/reqrep.ipc
 // kill $server
+
+// ./reqrep server ipc:///tmp/reqrep.ipc & server=$! && sleep 1 && ./reqrep client ipc:///tmp/reqrep.ipc
+// pkill reqrep
 
 
 

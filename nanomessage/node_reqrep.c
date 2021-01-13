@@ -73,16 +73,21 @@ node1(const char *url)
         if ((sock = nn_socket(AF_SP, NN_REQ)) < 0) {
                 fatal("nn_socket");
         }
+        printf("client sock: %d\n", sock);
         if ((rv = nn_connect (sock, url)) < 0) {
                 fatal("nn_connect");
         }
+        printf("client rv: %d\n", rv);
         printf("NODE1: SENDING DATE REQUEST %s\n", DATE);
         if ((bytes = nn_send(sock, DATE, sz_date, 0)) < 0) {
                 fatal("nn_send");
         }
+        printf("client bytes: %d\n", bytes);
+        // printf("client nn_recv: %d\n", nn_recv(sock, &buf, NN_MSG, 0));
         if ((bytes = nn_recv(sock, &buf, NN_MSG, 0)) < 0) {
                 fatal("nn_recv");
         }
+        printf("client buf: %s\n", buf);
         printf("NODE1: RECEIVED DATE %s\n", buf);  
         nn_freemsg(buf);
         return (nn_shutdown(sock, 0));
@@ -111,3 +116,7 @@ main(const int argc, const char **argv)
 // ./node_reqrep node0 ipc:///tmp/node_reqrep.ipc & node0=$! && sleep 1
 // ./node_reqrep node1 ipc:///tmp/node_reqrep.ipc
 // kill $node0
+
+
+// ./node_reqrep node0 ipc:///tmp/node_reqrep.ipc & node0=$! && sleep 1 && ./node_reqrep node1 ipc:///tmp/node_reqrep.ipc 
+// pkill node_reqrep
