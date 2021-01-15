@@ -149,7 +149,7 @@ main(const int argc, const char **argv)
 // Compilation
 // --------------
 // gcc req_json.c -I./nng/include/nng/compat/ /usr/local/lib/libnng.a ../json_in_c/cJSON/build/libcjson.dylib -o req_json
-// gcc req_json.c -I./nng/include/nng/compat/ /usr/local/lib/libnng.a -pthread -o req_json
+// gcc req_json.c -I./nng/include/nng/compat/ /usr/local/lib/libnng.a ../json_in_c/cJSON/build/libcjson.so -pthread -o req_json
 
 // Execution
 // --------------
