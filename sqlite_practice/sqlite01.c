@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <sqlite3.h> 
-#include <stdlib.h>       // calloc
-#include <stdarg.h>       // va_*
-#include <string.h>       // strlen, strcpy
+#include <stdlib.h>
+#include <stdarg.h>
+#include <string.h>
 
 void println(char *line)
 {
@@ -37,7 +37,6 @@ char* concat(int count, ...)
 
     return merged;
 }
-
 
 int main(int argc, char* argv[]) {
    char *db_path;
