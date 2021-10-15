@@ -54,7 +54,8 @@ static int callback(void *data, int argc, char **argv, char **azColName){
 int main(int argc, char* argv[]) {
     char *db_path;
 
-    db_path = concat(2,getenv("HOME"),"/.chipsln/chips/lightningd.sqlite3");
+    // db_path = concat(2,getenv("HOME"),"/.chipsln/chips/lightningd.sqlite3");
+    db_path = concat(2,getenv("HOME"),"/lightningd.sqlite3");
     println(db_path);
     free(db_path);
 
@@ -76,6 +77,7 @@ int main(int argc, char* argv[]) {
 
     /* Create SQL statement */
     sql = "SELECT count(*) from peers";
+    // sql = "SELECT count(*) FROM peers WHERE lower(hex(node_id))=?;"
 
     /* Execute SQL statement */
     rc = sqlite3_exec(db, sql, callback, (void*)data, &zErrMsg);
